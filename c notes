@@ -1,0 +1,11 @@
+argc = Argument count - cmd line variables when executing program
+
+char *argv[] = array of argument variables
+
+Abort a program using "return 1"
+
+Apparently if/else conditionals can be nested inside of a case in switch statement
+
+sizeof = keyword to determine what the memory size in bytes is of an item.
+
+Numeric variables are like buckets, int can hold 4 bytes and long can hold 8 bytes

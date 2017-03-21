@@ -1,0 +1,73 @@
+htmlpage Captain_s_Corner_Statement(login, pteam1)
+displayname = "Captain's Corner Statement"
+content
+<%{
+    t  =  Team_Info_Main  [(Captain_Email == input.login && Auth == input.pteam1)];
+    if (input.login  !=  t.Captain_Email)
+    {%>        <table width="500" border="0" cellpadding="1" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="text-align: center;"><strong>Sorry, Email Address not found!<br />
+            Call 631-262-0543 or email </strong><a href="mailto:leagueoffice@gmail.com"><strong>leagueoffice@gmail.com </strong></a><strong><br />
+            for captain's corner access</strong></td>
+        </tr>
+    </tbody>
+</table>    <%}
+    if (input.pteam1  !=  t.Auth)
+    {%>        <table width="500" border="0" cellpadding="1" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="text-align: center;"><strong>Sorry, Invalid Password!<br />
+            Call 631-262-0543 or email </strong><a href="mailto:leagueoffice@gmail.com"><strong>leagueoffice@gmail.com </strong></a><strong><br />
+            for captain's corner access</strong></td>
+        </tr>
+    </tbody>
+</table>    <%}%>    <table width="100%" border="1" cellpadding="1" cellspacing="1">
+    <tbody>
+        <tr>
+            <td><%q = input.login;
+    if (((input.login  !=  null)  &&  (input.login  =  t.Captain_Email))  &&  ((input.pteam1  !=  null)  &&  (input.pteam1  ==  t.Auth)))
+    {%>        <table width="100%" border="1" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr class="zc-row-header">
+		<td class="zc-viewrowheader" colspan="3"><strong><%=t.Captain%> - <%=t.Captain_Email%></strong></td>
+		<td class="zc-viewrowheader" colspan="2"><a href="https://creator.zohopublic1.com/leagueoffice/midnight-hockey-crm/view-perma/Captain_s_Corner_Alpha/VM3Dwn4rjrpzHkvGXK973vn2VuKBRrkBqAAtjfTDWmKZRCRbgVHR6F23ENECzVSqTtYMsBaKu3eHyEq4kRBhhfhSmYXXPEM8X9ek/" style="color:blue;TEXT-DECORATION:NONE"><strong>Log Out</strong></a></td>
+		
+		</tr><%for each r in Team_Info_Main  [(Captain_Email = t.Captain_Email && Auth = t.Auth)]
+        {
+            for each m in Team_Info_Season  [(Team == r.ID && Status != "Deactivated")] sort by  Added_Time desc range from 0 to 2
+            {
+                sc  =  Season_Conference  [ID = m.Season_Conference];
+                sn  =  Seasons  [ID = sc.Season];%>                <tr class="zc-row-header">
+            <td class="zc-viewrowheader" style="width:250px" colspan="3"><strong><%=r.Team_Name%> - <%=sc.Merged_Name%> Team Statement</strong></td>
+			<td class="zc-viewrowheader" colspan="2"><strong><a href="https://creator.zohopublic1.com/leagueoffice/midnight-hockey-crm/view-perma/Team_Roster/QRZ2dSuCYV4hJmv5b9ZFHABvmxHMdDF2Qz987QKhy1PWAyvhXkBaZBbu0AYVK9GQE6sTABeKQOpyWdFOXMK7U11BPtNO30HPPpVT/?login=<%=login%>&pteam1=<%=pteam1%>&team=<%=r.ID%>" style="color:blue;TEXT-DECORATION:NONE"><strong>Team Roster</strong></a></td>
+        <tr class="zc-row-header">
+        <td class="zc-viewrowheader">Date Received</td>
+            <td class="zc-viewrowheader">First Name</td>
+            <td class="zc-viewrowheader">Last Name</td>
+            <td class="zc-viewrowheader">Amount</td>
+            <td class="zc-viewrowheader">Method</td>           
+        </tr><%for each k in MHL_Manual_Payment_Entry  [(Team_Name == m.Team && Season_Conference == m.Season_Conference)] sort by  DateReceived 
+                {%>                    <tr class="zc-viewrow">
+            <td style="max-width:50px"><%=k.DateReceived%></td>
+            <td style="width:100px"><%=k.First_Name%></td>
+            <td style="width:100px"><%=k.Last_Name%></td>
+             <td style="width:50px"><%=k.Amount.round(2)%></td>
+            <td style="width:200px"><%=k.Method%></td>            
+</tr>                <%}
+                h = MHL_Manual_Payment_Entry[(Team_Name == m.Team && Season_Conference == m.Season_Conference)].sum(Amount);%>                <tr class="zc-row-header">
+<td class="zc-viewrowheader"></td>
+<td class="zc-viewrowheader" colspan="2">Current Balance:</td>
+<td class="zc-viewrowheader"><%if (h  !=  null)
+                {%><%=h.round(2)%>                <%}
+                else
+                {%>                    0.00                <%}%>                </td>
+<td class="zc-viewrowheader"></td>
+</tr>            <%}%>            <tr><td colspan="5">&nbsp;</td></tr>        <%}%>        </tbody>
+</table>
+</tbody>
+</table>    <%}
+}%>
